@@ -24,3 +24,19 @@ const home = "Home",
     categories = "Categories",
     cart = "Cart",
     account = "Account";
+
+//Home Screen string
+const searchBarHint = "Search something ...",
+    todayDeal = "Today's Deal",
+    flashSale = "Flash Sale",
+    topSeallers = "Top Sellers",
+    brand = "Brand",
+    topCategories = "Top Categories",
+    womenDress = "Women Dress",
+    girlsWatches = "Girls Watches",
+    mobilePhone = "Mobile Phone",
+    boysGlasses = "Boy Glasses",
+    tShirt = "T-Shirt",
+    girlsDress = "Girls Dress",
+    featuredProduct = "Featured Product",
+    featuredCategories = "Featured Categories";
