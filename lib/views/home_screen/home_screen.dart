@@ -1,5 +1,9 @@
 import 'package:ecommerce_app/consts/consts.dart';
-import 'package:ecommerce_app/views/home_screen/components/featured_button.dart';
+import 'package:ecommerce_app/views/home_screen/components/featured_catetory.dart';
+import 'package:ecommerce_app/views/home_screen/components/featured_product.dart';
+import 'package:ecommerce_app/views/home_screen/components/orther_product.dart';
+import 'package:ecommerce_app/views/home_screen/components/search_bar.dart';
+import 'package:ecommerce_app/views/home_screen/components/swiper_build.dart';
 import 'package:ecommerce_app/widgets/home_buttons.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -15,57 +19,17 @@ class HomeScreen extends StatelessWidget {
       child: SafeArea(
           child: Column(
         children: [
-          Container(
-            alignment: Alignment.center,
-            height: 60,
-            color: lightGreyColor,
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: primaryColor, width: 2.5),
-                borderRadius: BorderRadius.circular(5),
-              ),
-              child: TextFormField(
-                decoration: const InputDecoration(
-                  prefixIcon: Icon(Icons.camera_alt_outlined),
-                  suffixIcon: Icon(Icons.search),
-                  filled: true,
-                  fillColor: whiteColor,
-                  border: InputBorder.none,
-                  focusedBorder:
-                      OutlineInputBorder(borderSide: BorderSide.none),
-                  contentPadding: EdgeInsets.symmetric(vertical: 12.5),
-                  hintText: searchBarHint,
-                  hintStyle: TextStyle(color: textfieldColor),
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(height: 10),
+          //Seacrh bar
+          searchBar(),
+          10.heightBox,
           Expanded(
             child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               child: Column(
                 children: [
                   //Swipers brands
-                  VxSwiper.builder(
-                    aspectRatio: 16 / 9,
-                    autoPlay: true,
-                    height: 150,
-                    enlargeCenterPage: true,
-                    itemCount: sliderList.length,
-                    itemBuilder: (context, index) {
-                      return Image.asset(
-                        sliderList[index],
-                        fit: BoxFit.fill,
-                      )
-                          .box
-                          .rounded
-                          .clip(Clip.antiAlias)
-                          .margin(const EdgeInsets.symmetric(horizontal: 8))
-                          .make();
-                    },
-                  ),
-                  const SizedBox(height: 10),
+                  swiperWidget(slider: sliderList, height: 150),
+                  10.heightBox,
 
                   //deals Button
                   Row(
@@ -79,28 +43,11 @@ class HomeScreen extends StatelessWidget {
                               title: index == 0 ? todayDeal : flashSale,
                             )),
                   ),
-                  const SizedBox(height: 10),
+                  10.heightBox,
 
                   // 2nd Swiper
-                  VxSwiper.builder(
-                    aspectRatio: 16 / 9,
-                    autoPlay: true,
-                    height: 150,
-                    enlargeCenterPage: true,
-                    itemCount: secondSliderList.length,
-                    itemBuilder: (context, index) {
-                      return Image.asset(
-                        secondSliderList[index],
-                        fit: BoxFit.fill,
-                      )
-                          .box
-                          .rounded
-                          .clip(Clip.antiAlias)
-                          .margin(const EdgeInsets.symmetric(horizontal: 8))
-                          .make();
-                    },
-                  ),
-                  const SizedBox(height: 10),
+                  swiperWidget(slider: secondSliderList, height: 150),
+                  10.heightBox,
 
                   //category button
                   Row(
@@ -122,40 +69,36 @@ class HomeScreen extends StatelessWidget {
                                       : topSeallers,
                             )),
                   ),
-                  const SizedBox(height: 10),
+                  10.heightBox,
 
                   //Featured categories
                   Align(
-                      alignment: Alignment.centerLeft,
-                      child: featuredCategories.text
-                          .color(dartgreyColor)
-                          .size(18)
-                          .fontFamily(semibold)
-                          .make()),
-
-                  const SizedBox(height: 20),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: List.generate(
-                        3,
-                        (index) => Column(
-                          children: [
-                            featuredButton(
-                                icon: featuredImages1[index],
-                                title: featuredTitles1[index]),
-                            const SizedBox(height: 10),
-                            featuredButton(
-                                icon: featuredImages2[index],
-                                title: featuredTitles2[index]),
-                          ],
-                        ),
-                      ).toList(),
-                    ),
+                    alignment: Alignment.centerLeft,
+                    child: featuredCategories.text
+                        .color(dartgreyColor)
+                        .size(18)
+                        .fontFamily(semibold)
+                        .make(),
                   ),
+                  20.heightBox,
+
+                  SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Column(
+                        children: [
+                          featuredCategory(
+                              countItem: 3,
+                              image: featuredImages1,
+                              title: featuredTitles1),
+                          featuredCategory(
+                              countItem: 3,
+                              image: featuredImages2,
+                              title: featuredTitles2),
+                        ],
+                      )),
+                  20.heightBox,
 
                   //featured product
-                  const SizedBox(height: 20),
                   Container(
                     padding: const EdgeInsets.all(12),
                     width: double.infinity,
@@ -167,114 +110,42 @@ class HomeScreen extends StatelessWidget {
                             .fontFamily(bold)
                             .size(18)
                             .make(),
-                        const SizedBox(height: 10),
+                        10.heightBox,
                         SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: List.generate(
-                                6,
-                                (index) => Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Image.asset(
-                                          imgP1,
-                                          width: 130,
-                                          fit: BoxFit.fill,
-                                        ),
-                                        const SizedBox(height: 10),
-                                        "Labtop 4GB/64GB"
-                                            .text
-                                            .fontFamily(semibold)
-                                            .color(dartgreyColor)
-                                            .make(),
-                                        const SizedBox(height: 10),
-                                        "\$600"
-                                            .text
-                                            .color(primaryColor)
-                                            .fontFamily(bold)
-                                            .size(16)
-                                            .make()
-                                      ],
-                                    )
-                                        .box
-                                        .white
-                                        .roundedSM
-                                        .margin(const EdgeInsets.symmetric(
-                                            horizontal: 4))
-                                        .padding(const EdgeInsets.all(8))
-                                        .make()),
-                          ),
-                        )
+                            scrollDirection: Axis.horizontal,
+                            child: Column(
+                              children: [
+                                featuredProducts(
+                                    itemCount: 6,
+                                    image: imgB1,
+                                    width: 130,
+                                    title: "Laptop 8GB/64GB",
+                                    fontTitle: semibold,
+                                    colorTitle: dartgreyColor,
+                                    price: "\$600",
+                                    fontPrice: bold,
+                                    colorPrice: primaryColor),
+                              ],
+                            ))
                       ],
                     ),
                   ),
+                  20.heightBox,
 
                   //Third swiper
-                  const SizedBox(height: 20),
-                  VxSwiper.builder(
-                    aspectRatio: 16 / 9,
-                    autoPlay: true,
-                    height: 150,
-                    enlargeCenterPage: true,
-                    itemCount: secondSliderList.length,
-                    itemBuilder: (context, index) {
-                      return Image.asset(
-                        secondSliderList[index],
-                        fit: BoxFit.fill,
-                      )
-                          .box
-                          .rounded
-                          .clip(Clip.antiAlias)
-                          .margin(const EdgeInsets.symmetric(horizontal: 8))
-                          .make();
-                    },
-                  ),
-                  const SizedBox(height: 20),
+                  swiperWidget(slider: secondSliderList, height: 150),
+                  Container(height: 20),
 
                   //All products section
-                  GridView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
+                  ortherProduct(
                       itemCount: 6,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              mainAxisSpacing: 8,
-                              crossAxisSpacing: 8,
-                              mainAxisExtent: 300),
-                      itemBuilder: (context, index) {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Image.asset(
-                              imgP5,
-                              height: 200,
-                              width: 200,
-                              fit: BoxFit.fill,
-                            ),
-                            const Spacer(),
-                            "Labtop 4GB/64GB"
-                                .text
-                                .fontFamily(semibold)
-                                .color(dartgreyColor)
-                                .make(),
-                            const SizedBox(height: 10),
-                            "\$600"
-                                .text
-                                .color(primaryColor)
-                                .fontFamily(bold)
-                                .size(16)
-                                .make()
-                          ],
-                        )
-                            .box
-                            .white
-                            .roundedSM
-                            .margin(const EdgeInsets.symmetric(horizontal: 4))
-                            .padding(const EdgeInsets.all(12))
-                            .make();
-                      })
+                      column: 2,
+                      mainAxis: 8,
+                      crossAxis: 8,
+                      itemHeight: 300,
+                      itemImage: imgP5,
+                      itemTitle: "Laptop 4GB/64GB",
+                      itemPrice: "\$600")
                 ],
               ),
             ),
