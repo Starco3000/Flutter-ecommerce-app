@@ -1,6 +1,6 @@
-# Flutter-ecommerce_app
+# emart_seller
 
-A Flutter App create while learning Flutter
+A new Flutter project.
 
 ## Getting Started
 
